@@ -8,6 +8,8 @@ using OpenIddict.Server.AspNetCore;
 using System.Collections.Immutable;
 using static OpenIddict.Abstractions.OpenIddictConstants;
 using System.Security.Claims;
+using MeridiaCoreWebAPI.Constants.Messages;
+using MeridiaCoreWebAPI.Authorization;
 
 namespace MeridiaCoreWebAPI.Controllers
 {
@@ -16,15 +18,13 @@ namespace MeridiaCoreWebAPI.Controllers
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly UserManager<ApplicationUser> _userManager;
 
-        public AuthorizationController(
-            SignInManager<ApplicationUser> signInManager,
-            UserManager<ApplicationUser> userManager)
+        public AuthorizationController(SignInManager<ApplicationUser> signInManager, UserManager<ApplicationUser> userManager)
         {
             _signInManager = signInManager;
             _userManager = userManager;
         }
 
-        [HttpPost("~/connect/token")]
+        [HttpPost($"~/{AuthEndpoints.EXCHANGE_TOKEN}")]
         [IgnoreAntiforgeryToken]
         [Produces("application/json")]
         public async Task<IActionResult> Exchange(OpenIddictRequest request)
@@ -36,6 +36,7 @@ namespace MeridiaCoreWebAPI.Controllers
                     return Unauthorized();
 
                 var signInResult = await _signInManager.CheckPasswordSignInAsync(user, request.Password, false);
+
                 if (signInResult.Succeeded)
                 {
 
@@ -47,32 +48,28 @@ namespace MeridiaCoreWebAPI.Controllers
                         Claims.Role);
 
                     identity.SetClaim(Claims.Subject, await _userManager.GetUserIdAsync(user))
-                    .SetClaim(Claims.Email, await _userManager.GetEmailAsync(user))
-                    .SetClaim(Claims.Name, await _userManager.GetUserNameAsync(user))
-                    .SetClaims(Claims.Role, (await _userManager.GetRolesAsync(user)).ToImmutableArray());
+                        .SetClaim(Claims.Email, await _userManager.GetEmailAsync(user))
+                        .SetClaim(Claims.Name, await _userManager.GetUserNameAsync(user))
+                        .SetClaims(Claims.Role, (await _userManager.GetRolesAsync(user)).ToImmutableArray());
 
                     identity.SetScopes(new[]
                     {
-                Scopes.OpenId,
-                Scopes.Email,
-                Scopes.Profile,
-                Scopes.Roles,
-                Scopes.OfflineAccess
-            }.Intersect(request.GetScopes()));
+                        Scopes.OpenId,
+                        Scopes.Email,
+                        Scopes.Profile,
+                        Scopes.Roles,
+                        Scopes.OfflineAccess
+                    }.Intersect(request.GetScopes()));
 
                     identity.SetDestinations(GetDestinations);
 
-                    var claimsPrincipal = new ClaimsPrincipal(identity);
-
-                    return SignIn(claimsPrincipal, OpenIddictServerAspNetCoreDefaults.AuthenticationScheme);
+                    return SignIn(new ClaimsPrincipal(identity), OpenIddictServerAspNetCoreDefaults.AuthenticationScheme);
                 }
 
                 return Unauthorized();
-
             }
             else if (request.IsRefreshTokenGrantType())
             {
-                // Retrieve the claims principal stored in the refresh token.
                 var claimsPrincipal = (await HttpContext.AuthenticateAsync(OpenIddictServerAspNetCoreDefaults.AuthenticationScheme)).Principal;
 
                 var user = await _userManager.FindByIdAsync(claimsPrincipal.GetClaim(Claims.Subject));
@@ -82,19 +79,18 @@ namespace MeridiaCoreWebAPI.Controllers
                     var properties = new AuthenticationProperties(new Dictionary<string, string>
                     {
                         [OpenIddictServerAspNetCoreConstants.Properties.Error] = Errors.InvalidGrant,
-                        [OpenIddictServerAspNetCoreConstants.Properties.ErrorDescription] = "The refresh token is no longer valid."
+                        [OpenIddictServerAspNetCoreConstants.Properties.ErrorDescription] = ErrorMessages.INVALID_REFRESH_TOKEN
                     });
 
                     return Forbid(properties, OpenIddictServerAspNetCoreDefaults.AuthenticationScheme);
                 }
 
-                // Ensure the user is still allowed to sign in.
                 if (!await _signInManager.CanSignInAsync(user))
                 {
                     var properties = new AuthenticationProperties(new Dictionary<string, string>
                     {
                         [OpenIddictServerAspNetCoreConstants.Properties.Error] = Errors.InvalidGrant,
-                        [OpenIddictServerAspNetCoreConstants.Properties.ErrorDescription] = "The user is no longer allowed to sign in."
+                        [OpenIddictServerAspNetCoreConstants.Properties.ErrorDescription] = ErrorMessages.SIGN_IN_NOT_ALLOWED
                     });
 
                     return Forbid(properties, OpenIddictServerAspNetCoreDefaults.AuthenticationScheme);
@@ -105,7 +101,6 @@ namespace MeridiaCoreWebAPI.Controllers
                     nameType: Claims.Name,
                     roleType: Claims.Role);
 
-                // Override the user claims present in the principal in case they changed since the refresh token was issued.
                 identity.SetClaim(Claims.Subject, await _userManager.GetUserIdAsync(user))
                         .SetClaim(Claims.Email, await _userManager.GetEmailAsync(user))
                         .SetClaim(Claims.Name, await _userManager.GetUserNameAsync(user))
@@ -116,7 +111,7 @@ namespace MeridiaCoreWebAPI.Controllers
                 return SignIn(new ClaimsPrincipal(identity), OpenIddictServerAspNetCoreDefaults.AuthenticationScheme);
             }
 
-            throw new InvalidOperationException("The specified grant type is not supported.");
+            throw new InvalidOperationException(ErrorMessages.UNSUPPORTED_GRANT_TYPE);
         }
 
         private static IEnumerable<string> GetDestinations(Claim claim)
@@ -147,7 +142,6 @@ namespace MeridiaCoreWebAPI.Controllers
 
                     yield break;
 
-                // Never include the security stamp in the access and identity tokens, as it's a secret value.
                 case "AspNet.Identity.SecurityStamp": yield break;
 
                 default:

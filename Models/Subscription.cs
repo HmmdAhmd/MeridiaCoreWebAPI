@@ -1,5 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace MeridiaCoreWebAPI.Models
 {
@@ -52,6 +52,6 @@ namespace MeridiaCoreWebAPI.Models
         public virtual SubscriptionPlan SubscriptionPlan { get; set; }
         public virtual SubscriptionStorageMetric SubscriptionStorageMetric { get; set; }
         public int UniversalScore { get; set; }
-        public string OldAccessKey { get; set; }
+        public string OldAccessKey { get; set; }        
     }
 }

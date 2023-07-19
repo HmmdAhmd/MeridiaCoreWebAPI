@@ -3,6 +3,7 @@ using MeridiaCoreWebAPI.Constants;
 using MeridiaCoreWebAPI.Constants.Messages;
 using MeridiaCoreWebAPI.Data;
 using MeridiaCoreWebAPI.Models;
+using MeridiaCoreWebAPI.Utility;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using OpenIddict.Abstractions;
@@ -10,10 +11,10 @@ using OpenIddict.Validation.AspNetCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
-
 var connectionString = builder.Configuration[ConfigurationConstants.CONNECTION_STRING]
     ?? throw new InvalidOperationException(ErrorMessages.CONNECTION_STRING_NOT_FOUND);
+
+builder.Services.AddCors();
 
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
@@ -22,9 +23,10 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
 {
     options.UseSqlServer(connectionString);
-    // Register the entity sets needed by OpenIddict.
     options.UseOpenIddict();
 });
+
+builder.Services.AddTransient<UtilityFunctions>();
 
 builder.Services.Configure<IdentityOptions>(options =>
 {
@@ -53,7 +55,7 @@ builder.Services.AddOpenIddict()
 
    .AddServer(options =>
    {
-       options.SetTokenEndpointUris("connect/token");
+       options.SetTokenEndpointUris(AuthEndpoints.EXCHANGE_TOKEN);
 
        options.AllowPasswordFlow();
 
@@ -61,11 +63,9 @@ builder.Services.AddOpenIddict()
 
        options.AcceptAnonymousClients();
 
-       options.DisableAccessTokenEncryption();
+       options.RegisterScopes(OpenIddictConstants.Scopes.Email, OpenIddictConstants.Scopes.Profile, OpenIddictConstants.Scopes.OpenId,
+           OpenIddictConstants.Scopes.Roles, OpenIddictConstants.Scopes.OfflineAccess);
 
-       options.RegisterScopes(OpenIddictConstants.Scopes.Email, OpenIddictConstants.Scopes.Profile, OpenIddictConstants.Scopes.OpenId, OpenIddictConstants.Scopes.Roles, OpenIddictConstants.Scopes.OfflineAccess);
-
-       // Register the signing and encryption credentials.
        options.AddDevelopmentEncryptionCertificate()
               .AddDevelopmentSigningCertificate();
 
@@ -95,6 +95,8 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+app.UseCors(builder => builder.AllowAnyHeader().AllowAnyMethod().AllowAnyOrigin());
 
 app.UseHttpsRedirection();
 

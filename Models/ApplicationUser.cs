@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using MeridiaCoreWebAPI.Models;
+using Microsoft.AspNetCore.Identity;
 
 namespace MeridiaCoreWebAPI.Models
 {

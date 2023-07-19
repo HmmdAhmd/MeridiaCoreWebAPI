@@ -3,14 +3,15 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace MeridiaCoreWebAPI.Models
 {
-    public class Tag
+    public class SyncedData
     {
         [Key]
-        public int TagId { get; set; }
-        public string Name { get; set; }
+        public int SyncedDataId { get; set; }
         [ForeignKey("Subscription")]
         public int SubscriptionId { get; set; }
-        public bool IsSystemGenerated { get; set; }
+        public int EntityId { get; set; }
+        public DateTime SyncedDate { get; set; }
+        public string EntityType { get; set; }
         public virtual Subscription Subscription { get; set; }
     }
 }
