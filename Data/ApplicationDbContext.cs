@@ -7,19 +7,8 @@ namespace MeridiaCoreWebAPI.Data
 {
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {
-        public ApplicationDbContext() { }
 
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options) { }
-
-        protected override void OnModelCreating(ModelBuilder modelBuilder)
-        {
-            modelBuilder.Entity<PollingSessionModeratorRole>().HasKey(mod => new { mod.ModeratorId, mod.ModeratorRoleId });
-
-            base.OnModelCreating(modelBuilder);
-        }
-
-        public static string ToCustomString(DateTime date, TimeZoneInfo timeZone, string stringFormat) =>
-            TimeZoneInfo.ConvertTimeFromUtc(date, timeZone).ToString(stringFormat).ToLower();
 
         public virtual DbSet<Subscription> Subscription { get; set; }
         public virtual DbSet<Template> Template { get; set; }
