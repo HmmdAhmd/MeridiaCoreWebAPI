@@ -1,7 +1,6 @@
 ﻿using MeridiaCoreWebAPI.Models;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Query.SqlExpressions;
 
 namespace MeridiaCoreWebAPI.Data
 {
