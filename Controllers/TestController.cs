@@ -5,7 +5,7 @@ using OpenIddict.Validation.AspNetCore;
 
 namespace MeridiaCoreWebAPI.Controllers
 {
-    [Authorize(AuthenticationSchemes = OpenIddictValidationAspNetCoreDefaults.AuthenticationScheme)]
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class TestController : ControllerBase

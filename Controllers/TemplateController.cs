@@ -68,10 +68,6 @@ namespace MeridiaCoreWebAPI.Controllers
 
                     List<Template> templates = _templateCore.GetTemplatesInfoByIds(filteredTemplateIds);
 
-                    List<Subscription> childSubs = _subscriptionCore.GetChildSubscriptionsByMasterId(subscription.SubscriptionId);
-                    
-                    Dictionary<string, string> subUserIdNameDictionary = childSubs.ToDictionary(x => x.UserId, x => x.AccessKey);
-
                     foreach (var template in templates)
                     {
                         TemplateGetViewModel tgvm = new TemplateGetViewModel();
@@ -125,13 +121,17 @@ namespace MeridiaCoreWebAPI.Controllers
                         if (subscription.SubscriptionTypeId == (int)Enums.SubscriptionTypes.Parent)
                         {
                             if (template.UserId.Equals(subscription.UserId))
-                                tgvm.UploadedByString = "uploaded by: myself";
+                                tgvm.UploadedByString = "Myself";
                             else
                             {
+                                List<Subscription> childSubs = _subscriptionCore.GetChildSubscriptionsByMasterId(subscription.SubscriptionId);
+
+                                Dictionary<string, string> subUserIdNameDictionary = childSubs.ToDictionary(s => s.UserId, s => s.AccessKey);
+
                                 if (subUserIdNameDictionary.ContainsKey(tgvm.UserId))
-                                    tgvm.UploadedByString = "uploaded by: " + subUserIdNameDictionary[tgvm.UserId];
+                                    tgvm.UploadedByString = subUserIdNameDictionary[tgvm.UserId];
                                 else
-                                    tgvm.UploadedByString = "child";
+                                    tgvm.UploadedByString = "Child";
                             }
 
                             tgvm.IsEditable = true;
@@ -142,12 +142,12 @@ namespace MeridiaCoreWebAPI.Controllers
                             tgvm.IsShareable = false;
                             if (template.UserId.Equals(subscription.UserId))
                             {
-                                tgvm.UploadedByString = "uploaded by: myself";
+                                tgvm.UploadedByString = "Myself";
                                 tgvm.IsEditable = true;
                             }
                             else
                             {
-                                tgvm.UploadedByString = "shared";
+                                tgvm.UploadedByString = "Shared";
                                 tgvm.IsEditable = false;
                             }
                         }
