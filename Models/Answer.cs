@@ -9,8 +9,8 @@ namespace MeridiaCoreWebAPI.Models
         public int AnswerId { get; set; }
         public int AnswerOrdinal { get; set; }
         public int OrdinalLabelType { get; set; }
-        public string AnswerLabel { get; set; }
-        public string AnswerText { get; set; }
+        public string? AnswerLabel { get; set; }
+        public string? AnswerText { get; set; }
         public int AnswerWeight { get; set; }
         public int AnswerPoints { get; set; }
         public bool AnswerIsCorrect { get; set; }

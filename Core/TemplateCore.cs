@@ -3,7 +3,7 @@ using MeridiaCoreWebAPI.Models;
 using MeridiaCoreWebAPI.Utility;
 using static MeridiaCoreWebAPI.Utility.Enums;
 using Microsoft.EntityFrameworkCore;
-using MeridiaCoreWebAPI.ViewModels.Template;
+using MeridiaCoreWebAPI.ViewModels;
 
 namespace MeridiaCoreWebAPI.Core
 {
@@ -59,7 +59,7 @@ namespace MeridiaCoreWebAPI.Core
             }
         }
 
-        public List<int> GetTemplatesIdsByIdsFilter(List<int> templateIdsToFetch, TemplateFilter tf)
+        public List<int> GetTemplatesIdsByIdsFilter(List<int> templateIdsToFetch, Filter tf)
         {
             List<int> templateIds = new List<int>();
 
@@ -70,14 +70,14 @@ namespace MeridiaCoreWebAPI.Core
 
             switch (tf.OrderByColumn)
             {
-                case TemplateFilterColumn.CREATED_DATE:
+                case FilterColumn.CREATED_DATE:
                     if (tf.OrderByType == ColumnOrder.DESCENDING)
                         templateIds = query.OrderByDescending(t => t.CreatedDate).Skip(tf.SkipRecords).Take(tf.PageSize)
                             .Select(t => t.TemplateId).ToList();
                     else
                         templateIds = query.OrderBy(t => t.CreatedDate).Skip(tf.SkipRecords).Take(tf.PageSize).Select(t => t.TemplateId).ToList();
                     break;
-                case TemplateFilterColumn.TEMPLATE_NAME:
+                case FilterColumn.TEMPLATE_NAME:
                     if (tf.OrderByType == ColumnOrder.DESCENDING)
                         templateIds = query.OrderByDescending(t => t.TemplateName).Skip(tf.SkipRecords).Take(tf.PageSize)
                             .Select(t => t.TemplateId).ToList();
@@ -89,6 +89,18 @@ namespace MeridiaCoreWebAPI.Core
             }
 
             return templateIds;
+        }
+
+        public List<int> GetMasterSharedTemplateIds(int masterId)
+        {
+            try
+            {
+                return _db.SharedTemplate.Where(st => st.ParentId == masterId).GroupBy(st => st.TemplateId).Select(st => st.Key).ToList();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
     }
 }

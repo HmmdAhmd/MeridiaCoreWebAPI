@@ -10,16 +10,16 @@ namespace MeridiaCoreWebAPI.Models
         [ForeignKey("Subscription")]
         [Required]
         public int SubscriptionId { get; set; }
-        public string Title { get; set; }
+        public string? Title { get; set; }
         public DateTime CreatedDate { get; set; }
         public DateTime LastModifiedDate { get; set; }
         public int SortingColumn { get; set; }
-        public string SortingColumnType { get; set; }
+        public string? SortingColumnType { get; set; }
         public int SortingPattern { get; set; }
-        public string DateType { get; set; }
+        public string? DateType { get; set; }
         public DateTime? FromDate { get; set; }
         public DateTime? ToDate { get; set; }
-        public string RollingDate { get; set; }
+        public string? RollingDate { get; set; }
         public virtual Subscription Subscription { get; set; }
         public virtual ICollection<ItemFilter> ItemFilter { get; set; }
     }

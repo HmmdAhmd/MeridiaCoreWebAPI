@@ -13,11 +13,11 @@ namespace MeridiaCoreWebAPI.Models
         public int SlideId { get; set; }
         public int PollOrdinal { get; set; }
         public int PollAnswerCount { get; set; }
-        public string PolledState { get; set; }
+        public string? PolledState { get; set; }
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }
         public int MaxParticipantResponse { get; set; }
-        public string MaxParticipantResponseType { get; set; }
+        public string? MaxParticipantResponseType { get; set; }
         public bool AllowRepeatSelection { get; set; }
         public bool ExcludeFromReport { get; set; }
         public virtual Slide Slide { get; set; }

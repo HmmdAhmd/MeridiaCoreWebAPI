@@ -10,20 +10,18 @@ namespace MeridiaCoreWebAPI.Models
         [ForeignKey("Template")]
         public int TemplateId { get; set; }
         [ForeignKey("ApplicationUser")]
-        public string UserId { get; set; }
+        public string? UserId { get; set; }
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }
         public DateTime LastModifiedDate { get; set; }
         public bool IsArchived { get; set; }
         public bool IsDeleted { get; set; }
-        public string PollingMode { get; set; }
+        public string? PollingMode { get; set; }
         public int PollingState { get; set; }
-        public string PollingToken { get; set; }
+        public string? PollingToken { get; set; }
         public bool IsSynced { get; set; }
-        public string JoinCode { get; set; }
-        [ForeignKey("ParticipantList")]
+        public string? JoinCode { get; set; }
         public int? ParticipantListId { get; set; }
-        public virtual ParticipantList ParticipantList { get; set; }
         public virtual ApplicationUser ApplicationUser { get; set; }
         public virtual Template Template { get; set; }
         public virtual ICollection<PollingSessionMessage> PollingSessionMessages { get; set; }

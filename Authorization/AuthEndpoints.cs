@@ -2,6 +2,6 @@
 {
     public class AuthEndpoints
     {
-        public const string EXCHANGE_TOKEN = "api/connect/token";
+        public const string EXCHANGE_TOKEN = "connect/token";
     }
 }

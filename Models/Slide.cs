@@ -7,22 +7,22 @@ namespace MeridiaCoreWebAPI.Models
     {
         [Key]
         public int SlideId { get; set; }
-        public string URL { get; set; }
-        public string VideoURL { get; set; }
+        public string? URL { get; set; }
+        public string? VideoURL { get; set; }
         public int SlideOrdinal { get; set; }
-        public string SlideType { get; set; }
+        public string? SlideType { get; set; }
         public int FilterSlideOrdinal { get; set; }
         public int FilteredSlideOrdinal { get; set; }
         public int FilterAnswerOrdinal { get; set; }
         public int CompareSlide1Ordinal { get; set; }
         public int CompareSlide2Ordinal { get; set; }
         public int ResponseSourceSlideOrdinal { get; set; }
-        public string TeamAssignmentType { get; set; }
+        public string? TeamAssignmentType { get; set; }
         public int ScoringDecimalPlaces { get; set; }
         public int TeamQuestionOrdinal { get; set; }
-        public string ScoringType { get; set; }
-        public string MasterSlideKey { get; set; }
-        public string MediaAssetKey { get; set; }
+        public string? ScoringType { get; set; }
+        public string? MasterSlideKey { get; set; }
+        public string? MediaAssetKey { get; set; }
         public int PollingDisposition { get; set; }
         public int ResponseCollection { get; set; }
         public bool IsDeleted { get; set; }
@@ -31,7 +31,7 @@ namespace MeridiaCoreWebAPI.Models
         public bool IsTimeline { get; set; }
         public bool IsVideoSlide { get; set; }
         public int MaxParticipantResponse { get; set; }
-        public string MaxParticipantResponseType { get; set; }
+        public string? MaxParticipantResponseType { get; set; }
         public bool AllowRepeatSelection { get; set; }
         public DateTime LastModifiedDate { get; set; }
         [ForeignKey("Template")]

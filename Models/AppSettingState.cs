@@ -6,6 +6,6 @@ namespace MeridiaCoreWebAPI.Models
     {
         [Key]
         public int AppSettingStateId { get; set; }
-        public string Title { get; set; }          
+        public string? Title { get; set; }          
     }
 }

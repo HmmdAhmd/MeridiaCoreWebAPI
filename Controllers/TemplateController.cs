@@ -10,6 +10,7 @@ using MeridiaCoreWebAPI.Constants;
 using Microsoft.AspNetCore.Authorization;
 using OpenIddict.Validation.AspNetCore;
 using MeridiaCoreWebAPI.Authorization;
+using MeridiaCoreWebAPI.ViewModels;
 
 namespace MeridiaCoreWebAPI.Controllers
 {
@@ -36,7 +37,7 @@ namespace MeridiaCoreWebAPI.Controllers
 
         [Route("list/chunk")]
         [HttpPost]
-        public async Task<JsonResult> GetTemplatesChunk([FromBody] TemplateFilter tf)
+        public async Task<JsonResult> GetTemplatesChunk([FromBody] Filter tf)
         {
             List<TemplateGetViewModel> templatesList = new List<TemplateGetViewModel>();
             try

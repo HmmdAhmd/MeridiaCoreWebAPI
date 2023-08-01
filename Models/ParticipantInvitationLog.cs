@@ -12,9 +12,9 @@ namespace MeridiaCoreWebAPI.Models
         [ForeignKey("ParticipantListId")]
         public int ParticipantListId { get; set; }
         [ForeignKey("ApplicationUser")]
-        public string UserId { get; set; }
+        public string? UserId { get; set; }
         public int Status { get; set; }
-        public string StatusDescription { get; set; }
+        public string? StatusDescription { get; set; }
         public DateTime CreatedDate { get; set; }
         public DateTime LastModified { get; set; }
         public virtual Template Template { get; set; }

@@ -11,7 +11,7 @@ namespace MeridiaCoreWebAPI.Models
         public int SubscriptionPlanId { get; set; }
         [ForeignKey("AppSetting")]
         public int AppSettingId { get; set; }
-        public string Value { get; set; }
+        public string? Value { get; set; }
         public virtual SubscriptionPlan SubscriptionPlan { get; set; }
         public virtual AppSetting AppSetting { get; set; }
     }

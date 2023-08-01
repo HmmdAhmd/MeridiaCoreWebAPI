@@ -33,6 +33,7 @@ builder.Services.AddTransient<UtilityFunctions>();
 builder.Services.AddScoped<TemplateCore>();
 builder.Services.AddScoped<SubscriptionCore>();
 builder.Services.AddScoped<ParticipantManagementCore>();
+builder.Services.AddScoped<PollingCore>();
 
 builder.Services.Configure<IdentityOptions>(options =>
 {
@@ -61,7 +62,7 @@ builder.Services.AddOpenIddict()
 
    .AddServer(options =>
    {
-       options.SetTokenEndpointUris(AuthEndpoints.EXCHANGE_TOKEN);
+       options.SetTokenEndpointUris("connect");
 
        options.AllowPasswordFlow();
 
@@ -72,17 +73,24 @@ builder.Services.AddOpenIddict()
        options.RegisterScopes(OpenIddictConstants.Scopes.Email, OpenIddictConstants.Scopes.Profile, OpenIddictConstants.Scopes.OpenId,
            OpenIddictConstants.Scopes.Roles, OpenIddictConstants.Scopes.OfflineAccess);
 
+       options.UseReferenceAccessTokens();
+       options.UseReferenceRefreshTokens();
+
        options.AddDevelopmentEncryptionCertificate()
               .AddDevelopmentSigningCertificate();
 
        options.UseAspNetCore()
               .EnableTokenEndpointPassthrough();
+
+       options.SetIssuer(new Uri("https://localhost:7243/"));
+
    })
 
    .AddValidation(options =>
    {
        options.UseLocalServer();
 
+       //options.AddAudiences("MERIDIA");
        options.UseAspNetCore();
    });
 

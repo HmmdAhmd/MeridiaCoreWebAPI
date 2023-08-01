@@ -7,10 +7,10 @@ namespace MeridiaCoreWebAPI.Models
     {
         [Key]
         public int ParticipantListId { get; set; }
-        public string Name { get; set; }
-        public string Type { get; set; }
+        public string? Name { get; set; }
+        public string? Type { get; set; }
         [ForeignKey("ApplicationUser")]
-        public string UserId { get; set; }
+        public string? UserId { get; set; }
         public DateTime CreatedDate { get; set; }
         public int NoOfResponsesPerSlide { get; set; }
         public bool IsDeleted { get; set; }

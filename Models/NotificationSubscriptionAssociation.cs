@@ -11,7 +11,7 @@ namespace MeridiaCoreWebAPI.Models
         [Required]
         public int NotificationId { get; set; }
         [ForeignKey("ApplicationUser")]        
-        public string UserId { get; set; }
+        public string? UserId { get; set; }
         [ForeignKey("NotificationObserverType")]
         [Required]
         public int NotificationObserverTypeId { get; set; }

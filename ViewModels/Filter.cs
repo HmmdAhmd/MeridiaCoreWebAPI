@@ -1,6 +1,6 @@
-﻿namespace MeridiaCoreWebAPI.ViewModels.Template
+﻿namespace MeridiaCoreWebAPI.ViewModels
 {
-    public class TemplateFilter
+    public class Filter
     {
         public string OrderByColumn { get; set; }
         public string OrderByType { get; set; }

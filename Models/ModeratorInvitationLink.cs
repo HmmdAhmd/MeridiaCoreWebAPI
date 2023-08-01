@@ -11,7 +11,7 @@ namespace MeridiaCoreWebAPI.Models
         public int ModeratorId { get; set; }
         [ForeignKey("PollingData")]
         public int PollingDataId { get; set; }
-        public string InvitationCode { get; set; }
+        public string? InvitationCode { get; set; }
         public DateTime CreatedDate { get; set; }
         public DateTime LastModifiedDate { get; set; }
         public virtual Moderator Moderator { get; set; }

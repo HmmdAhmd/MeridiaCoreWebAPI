@@ -4,7 +4,7 @@ namespace MeridiaCoreWebAPI.Models
 {
     public class ActionType
     {
-        [Required]
+        [Key]
         public int ActionTypeId { get; set; }
         [Required]
         public string Name { get; set; }

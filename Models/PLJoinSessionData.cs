@@ -11,7 +11,7 @@ namespace MeridiaCoreWebAPI.Models
         public int ParticipantListDataId { get; set; }
         [ForeignKey("PollingParticipant")]
         public int PollingParticipantId { get; set; }
-        public string Value { get; set; }
+        public string? Value { get; set; }
         public DateTime CreatedDate { get; set; }
         public virtual ParticipantListData ParticipantListData { get; set; }
         public virtual PollingParticipant PollingParticipant { get; set; }
