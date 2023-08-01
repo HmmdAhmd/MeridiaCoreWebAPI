@@ -62,7 +62,7 @@ builder.Services.AddOpenIddict()
 
    .AddServer(options =>
    {
-       options.SetTokenEndpointUris("connect");
+       options.SetTokenEndpointUris(AuthEndpoints.EXCHANGE_TOKEN);
 
        options.AllowPasswordFlow();
 
