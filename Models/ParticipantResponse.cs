@@ -7,12 +7,12 @@ namespace MeridiaCoreWebAPI.Models
     {
         [Key]
         public int ParticipantResponseId { get; set; }
+        public int AnswerOrdinal { get; set; }
+        public DateTime Date { get; set; }
         public string? KeypadId { get; set; }
         public string? ParticipantKey { get; set; }
         [ForeignKey("PolledSlide")]
         public int PolledSlideId { get; set; }
-        public DateTime Date { get; set; }
-        public int AnswerOrdinal { get; set; }
         [ForeignKey("PollingParticipant")]
         public int? PollingParticipantId { get; set; }
         public int Repeat { get; set; }

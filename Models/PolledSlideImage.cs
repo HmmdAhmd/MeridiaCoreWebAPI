@@ -5,7 +5,6 @@ namespace MeridiaCoreWebAPI.Models
 {
     public class PolledSlideImage
     {
-        [Key]
         public int PolledSlideImageId { get; set; }
         [ForeignKey("PolledSlide")]
         public int PolledSlideId { get; set; }

@@ -11,8 +11,8 @@ namespace MeridiaCoreWebAPI.Models
         public string? ParticipantName { get; set; }
         public string? UniqueId { get; set; }
         public bool IsDeleted { get; set; }
-        public bool IsLatecomer { get; set; }
         public string? ParticipantUniqueId { get; set; }
+        public bool IsLatecomer { get; set; }
         public virtual PollingData PollingData { get; set; }        
     }
 }

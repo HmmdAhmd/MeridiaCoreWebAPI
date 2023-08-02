@@ -2,6 +2,7 @@
 using MeridiaCoreWebAPI.Models;
 using MeridiaCoreWebAPI.Utility;
 using MeridiaCoreWebAPI.ViewModels;
+using Microsoft.EntityFrameworkCore;
 
 namespace MeridiaCoreWebAPI.Core
 {
@@ -64,15 +65,14 @@ namespace MeridiaCoreWebAPI.Core
             try
             {
                 return _db.PollingData
-                    .Where(pd => pd.UserId == "ba188895-617b-4ada-9b90-4dc96bef5530")
-                    //.Include(pd => pd.ApplicationUser)
-                    //.Include(pd => pd.PolledTemplateMetaData)
-                    //.Include(pd => pd.PollingDataTags).ThenInclude(pd => pd.Tag)
-                    //.Include(pd => pd.Template)
-                    //.ThenInclude(pd => pd.Slides)
-                    //.Include(pd => pd.Template.TemplateMetaData)
-                    //.Include(pd => pd.PolledSlides).ThenInclude(pd => pd.Slide)
-                    //.Where(pd => ids.Contains(pd.PollingDataId))
+                    .Include(pd => pd.ApplicationUser)
+                    .Include(pd => pd.PolledTemplateMetaData)
+                    .Include(pd => pd.PollingDataTags).ThenInclude(pd => pd.Tag)
+                    .Include(pd => pd.Template)
+                    .ThenInclude(pd => pd.Slides)
+                    .Include(pd => pd.Template.TemplateMetaData)
+                    .Include(pd => pd.PolledSlides).ThenInclude(pd => pd.Slide)
+                    .Where(pd => ids.Contains(pd.PollingDataId))
                     .ToList();
             }
             catch (Exception ex)
