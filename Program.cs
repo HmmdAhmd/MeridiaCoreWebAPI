@@ -82,15 +82,13 @@ builder.Services.AddOpenIddict()
        options.UseAspNetCore()
               .EnableTokenEndpointPassthrough();
 
-       options.SetIssuer(new Uri("https://localhost:7243/"));
+       options.SetIssuer(new Uri(builder.Configuration[ConfigurationConstants.AUTHORIZATION_SERVER_URL]));
 
    })
 
    .AddValidation(options =>
    {
        options.UseLocalServer();
-
-       //options.AddAudiences("MERIDIA");
        options.UseAspNetCore();
    });
 

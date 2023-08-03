@@ -26,7 +26,6 @@ namespace MeridiaCoreWebAPI.Models
         public string? JoinCode { get; set; }
         public virtual Template Template { get; set; }
         public virtual ApplicationUser ApplicationUser { get; set; }
-        public virtual PolledPlaylist PolledPlaylist { get; set; }
         public virtual ICollection<PollingSessionMessage> PollingSessionMessages { get; set; }
         public virtual ICollection<PolledSlide> PolledSlides { get; set; }
         public virtual ICollection<PollingParticipant> PollingParticipants { get; set; }
