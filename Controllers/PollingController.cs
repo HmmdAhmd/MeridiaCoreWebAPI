@@ -149,5 +149,60 @@ namespace MeridiaCoreWebAPI.Controllers
                 throw ex;
             }
         }
+
+        [Route("get/running/polls/list")]
+        [HttpPost]
+        public JsonResult GetRunningPollingSessionsList([FromBody] Filter pf)
+        {
+            List<PollingDataGetViewModel> lpdgvm = new List<PollingDataGetViewModel>();
+            try
+            {
+                string userId = _userManager.GetUserId(User);
+
+                if (!string.IsNullOrEmpty(userId))
+                {
+                    Subscription subscription = _subscriptionCore.GetSubscriptionByUserId(userId);
+
+                    if (subscription != null)
+                    {
+                        List<PollingData> pollingSessions = _pollingCore.GetRunningPollingSessionsByUserId(userId, pf.SkipRecords);
+                        if (pollingSessions.Count > 0)
+                        {
+                            List<Slide> slides = _templateCore.GetSlidesByTemplateIds(pollingSessions.Select(x => x.TemplateId).ToList());
+                            foreach (var item in pollingSessions)
+                            {
+                                PollingDataGetViewModel pdgvm = new PollingDataGetViewModel();
+                                pdgvm.PollingDataId = item.PollingDataId;
+                                pdgvm.PollingStartDate = item.StartDate;
+                                pdgvm.TemplateId = item.TemplateId;
+                                pdgvm.TemplateName = item.Template.TemplateName;
+                                pdgvm.ImageUrl = slides.FirstOrDefault(slide => slide.TemplateId == item.TemplateId && slide.SlideOrdinal == 1).URL;
+                                pdgvm.JoinCode = string.IsNullOrEmpty(item.JoinCode) ? subscription.AccessKey : item.JoinCode;
+                                lpdgvm.Add(pdgvm);
+                            }
+                            Parallel.ForEach(new ConcurrentBag<PollingDataGetViewModel>(lpdgvm), pollingSession =>
+                            {
+                                CloudBlobBlockAccessUrlViewModel cloudBlobBlockAccessUrlViewModel = new CloudBlobBlockAccessUrlViewModel()
+                                {
+                                    ImageUrl = pollingSession.ImageUrl,
+                                    RootDirectory = AzureConstants.ROOT_DIRECTORY_NAME,
+                                    UserId = userId,
+                                    SubDirectoryLevelOne = pollingSession.TemplateId.ToString(),
+                                    URLExpiryDate = DateTime.UtcNow.AddDays(3)
+                                };
+                                pollingSession.ImageUrl = "https://img.freepik.com/free-vector/simple-blue-gradient-background-vector-business_53876-143439.jpg";
+
+                            });
+                        }
+                        return _utilityFunctions.ReturnResponse(lpdgvm, ResponseType.SUCCESS, ResponseType.SUCCESS);
+                    }
+                }
+                return _utilityFunctions.ReturnResponse(null, ResponseType.FAILURE, ResponseType.FAILURE);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
     }
 }

@@ -80,5 +80,21 @@ namespace MeridiaCoreWebAPI.Core
                 throw ex;
             }
         }
+
+        public List<PollingData> GetRunningPollingSessionsByUserId(string userId, int skipRecords = 0)
+        {
+            try
+            {
+                return _db.PollingData.Where(pd => pd.UserId.Equals(userId) && pd.PollingState == (int)Enums.PollingState.Open)
+                    .OrderByDescending(pd => pd.StartDate)
+                    .Skip(skipRecords)
+                    .Include(pd => pd.Template)
+                    .ToList();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
     }
 }

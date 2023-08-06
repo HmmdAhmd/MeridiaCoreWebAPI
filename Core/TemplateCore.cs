@@ -102,5 +102,17 @@ namespace MeridiaCoreWebAPI.Core
                 throw ex;
             }
         }
+
+        public List<Slide> GetSlidesByTemplateIds(List<int> templateIds)
+        {
+            try
+            {
+                return _db.Slide.Where(s => templateIds.Contains(s.TemplateId)).ToList();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
     }
 }
