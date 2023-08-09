@@ -12,7 +12,7 @@ namespace MeridiaCoreWebAPI.Models
         public int DashboardItemId { get; set; }
         [ForeignKey("GlobalListMetaData")]
         public int GlobalListMetaDataId { get; set; }
-        public string Value { get; set; }
+        public string? Value { get; set; }
         public int Order { get; set; }
         public DateTime CreatedDate { get; set; }
         public DateTime LastModifiedDate { get; set; }

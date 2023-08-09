@@ -8,7 +8,7 @@ namespace MeridiaCoreWebAPI.Models
         public int EZVoteConnectBuildId { get; set; }
         [Required]
         public string BuildNumber { get; set; }
-        public string ReleaseNotes { get; set; }
+        public string? ReleaseNotes { get; set; }
         public DateTime ReleaseDate { get; set; }
 
     }

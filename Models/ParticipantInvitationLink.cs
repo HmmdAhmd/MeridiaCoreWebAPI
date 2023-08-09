@@ -13,7 +13,7 @@ namespace MeridiaCoreWebAPI.Models
         public int ParticipantListId { get; set; }
         [ForeignKey("ParticipantInvitationLogId")]
         public int ParticipantInvitationLogId { get; set; }
-        public string ParticipantUniqueId { get; set; }
+        public string? ParticipantUniqueId { get; set; }
         [Required(AllowEmptyStrings =true)]
         public string InvitationCode { get; set; }
         public bool IsExpired { get; set; }

@@ -10,8 +10,8 @@ namespace MeridiaCoreWebAPI.Models
         [ForeignKey("ApplicationUser")]
         [Required]
         public string UserId { get; set; }
-        public string Token { get; set; }
-        public string URL { get; set; }
+        public string? Token { get; set; }
+        public string? URL { get; set; }
         public bool IsActive { get; set; }
         public bool AutoRenewal { get; set; }
         public DateTime CreatedDate { get; set; }

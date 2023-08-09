@@ -7,16 +7,16 @@ namespace MeridiaCoreWebAPI.Models
     {
         [Key]
         public int TemplateId { get; set; }
-        public string TemplateKey { get; set; }
-        public string TemplateName { get; set; }
+        public string? TemplateKey { get; set; }
+        public string? TemplateName { get; set; }
         public DateTime CreatedDate { get; set; }
         public DateTime LastModifiedDate { get; set; }
         public bool IsDeleted { get; set; }
         public bool IsArchived { get; set; }
-        public string FileId { get; set; }
+        public string? FileId { get; set; }
         public bool IsFileDeleted { get; set; }
         [ForeignKey("ApplicationUser")]
-        public string UserId { get; set; }
+        public string? UserId { get; set; }
         public virtual AudienceView AudienceView { get; set; }
         public virtual ApplicationUser ApplicationUser { get; set; }
         public virtual ICollection<Slide> Slides { get; set; }

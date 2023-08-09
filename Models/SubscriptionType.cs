@@ -6,6 +6,6 @@ namespace MeridiaCoreWebAPI.Models
     {
         [Key]
         public int SubscriptionTypeId { get; set; }
-        public string Name { get; set; }
+        public string? Name { get; set; }
     }
 }

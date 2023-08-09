@@ -10,8 +10,8 @@ namespace MeridiaCoreWebAPI.Models
         [ForeignKey("AppSetting")]
         public int AppSettingId { get; set; }
         [ForeignKey("ApplicationUser")]
-        public string UserId { get; set; }
-        public string Value { get; set; }
+        public string? UserId { get; set; }
+        public string? Value { get; set; }
         public virtual AppSetting AppSetting { get; set; }        
         public virtual ApplicationUser ApplicationUser { get; set; }
     }

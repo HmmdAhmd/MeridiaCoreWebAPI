@@ -7,7 +7,7 @@ namespace MeridiaCoreWebAPI.Models
     {
         [Key]
         public int TagId { get; set; }
-        public string Name { get; set; }
+        public string? Name { get; set; }
         [ForeignKey("Subscription")]
         public int SubscriptionId { get; set; }
         public bool IsSystemGenerated { get; set; }
