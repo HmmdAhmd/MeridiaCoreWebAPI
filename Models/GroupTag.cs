@@ -12,7 +12,7 @@ namespace MeridiaCoreWebAPI.Models
         [ForeignKey("ParticipantList")]
         public int ParticipantListId { get; set; }
         [ForeignKey("ApplicationUser")]
-        public string UserId { get; set; }
+        public string? UserId { get; set; }
         public virtual Tag Tag { get; set; }
         public virtual ParticipantList ParticipantList { get; set; }
         public virtual ApplicationUser ApplicationUser { get; set; }

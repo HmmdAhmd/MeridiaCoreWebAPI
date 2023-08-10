@@ -13,7 +13,7 @@ namespace MeridiaCoreWebAPI.Models
         public int ParticipantListId { get; set; }
         public DateTime AssociationDate { get; set; }
         [ForeignKey("ApplicationUser")]
-        public string UserId { get; set; }
+        public string? UserId { get; set; }
         public virtual Template Template { get; set; }
         public virtual ParticipantList ParticipantList { get; set; }
         public virtual ApplicationUser ApplicationUser { get; set; }

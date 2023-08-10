@@ -9,7 +9,7 @@ namespace MeridiaCoreWebAPI.Models
         public int GroupParticipantAssociationId { get; set; }
         [ForeignKey("ParticipantList")]
         public int ParticipantListId { get; set; }
-        public string ParticipantUniqueId { get; set; }
+        public string? ParticipantUniqueId { get; set; }
         public DateTime AssociationDate { get; set; }        
         public virtual ParticipantList ParticipantList { get; set; }                
     }

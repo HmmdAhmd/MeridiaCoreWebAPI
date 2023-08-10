@@ -7,9 +7,9 @@ namespace MeridiaCoreWebAPI.Models
     {
         [Key]
         public int ReportId { get; set; }
-        public string URL { get; set; }
-        public string Status { get; set; }
-        public string Message { get; set; }
+        public string? URL { get; set; }
+        public string? Status { get; set; }
+        public string? Message { get; set; }
         public DateTime CreatedDate { get; set; }
         public DateTime LastModifiedDate { get; set; }
         [ForeignKey("ApplicationUser")]

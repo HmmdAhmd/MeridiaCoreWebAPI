@@ -7,7 +7,7 @@ namespace MeridiaCoreWebAPI.Models
     {
         [Key]
         public int AppSettingId { get; set; }
-        public string Title { get; set; }
+        public string? Title { get; set; }
         [ForeignKey("AppSettingValueType")]
         public int AppSettingValueTypeId { get; set; }
         public virtual AppSettingValueType AppSettingValueType { get; set; }

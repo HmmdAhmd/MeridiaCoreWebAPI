@@ -11,7 +11,7 @@ namespace MeridiaCoreWebAPI.Models
         public int AppSettingId { get; set; }
         [ForeignKey("MeridiaClientRecord")]
         public int MeridiaClientRecordId { get; set; }
-        public string Value { get; set; }
+        public string? Value { get; set; }
         public virtual AppSetting AppSetting { get; set; }
         public virtual MeridiaClientRecord MeridiaClientRecord { get; set; }
     }

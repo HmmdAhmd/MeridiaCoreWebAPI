@@ -12,7 +12,7 @@ namespace MeridiaCoreWebAPI.Models
         public int NotificationSubscriptionAssociationId { get; set; }
         public int DismissCount { get; set; }
         public bool HasActionTaken { get; set; }
-        public string DeviceUUId { get; set; }
+        public string? DeviceUUId { get; set; }
         public virtual NotificationSubscriptionAssociation NotificationSubscriptionAssociation { get; set; }
     }
 }

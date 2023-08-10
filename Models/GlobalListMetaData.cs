@@ -7,9 +7,9 @@ namespace MeridiaCoreWebAPI.Models
     {
         [Key]
         public int GlobalListMetaDataId { get; set; }
-        public string Key { get; set; }
+        public string? Key { get; set; }
         public int Order { get; set; }
-        public string AnswerFormat { get; set; }
+        public string? AnswerFormat { get; set; }
         public bool IsVisible { get; set; }
         public bool IsOperatorVisible { get; set; }
         public bool IsIdentifyingColumn { get; set; }

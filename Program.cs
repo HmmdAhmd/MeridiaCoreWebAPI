@@ -1,6 +1,7 @@
 using MeridiaCoreWebAPI.Authorization;
 using MeridiaCoreWebAPI.Constants;
 using MeridiaCoreWebAPI.Constants.Messages;
+using MeridiaCoreWebAPI.Core;
 using MeridiaCoreWebAPI.Data;
 using MeridiaCoreWebAPI.Models;
 using MeridiaCoreWebAPI.Utility;
@@ -22,11 +23,17 @@ builder.Services.AddSwaggerGen();
 
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
 {
-    options.UseSqlServer(connectionString);
+    options.UseSqlServer(connectionString, builder => builder
+    .CommandTimeout(900)
+    .EnableRetryOnFailure(10, TimeSpan.FromSeconds(30), new List<int>() { 3, 4, 5, 6, 7, 8, 9, 11, 16, 17, 40197 }));
     options.UseOpenIddict();
 });
 
 builder.Services.AddTransient<UtilityFunctions>();
+builder.Services.AddScoped<TemplateCore>();
+builder.Services.AddScoped<SubscriptionCore>();
+builder.Services.AddScoped<ParticipantManagementCore>();
+builder.Services.AddScoped<PollingCore>();
 
 builder.Services.Configure<IdentityOptions>(options =>
 {
@@ -66,17 +73,22 @@ builder.Services.AddOpenIddict()
        options.RegisterScopes(OpenIddictConstants.Scopes.Email, OpenIddictConstants.Scopes.Profile, OpenIddictConstants.Scopes.OpenId,
            OpenIddictConstants.Scopes.Roles, OpenIddictConstants.Scopes.OfflineAccess);
 
+       options.UseReferenceAccessTokens();
+       options.UseReferenceRefreshTokens();
+
        options.AddDevelopmentEncryptionCertificate()
               .AddDevelopmentSigningCertificate();
 
        options.UseAspNetCore()
               .EnableTokenEndpointPassthrough();
+
+       options.SetIssuer(new Uri(builder.Configuration[ConfigurationConstants.AUTHORIZATION_SERVER_URL]));
+
    })
 
    .AddValidation(options =>
    {
        options.UseLocalServer();
-
        options.UseAspNetCore();
    });
 
